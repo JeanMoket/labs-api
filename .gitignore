@@ -1,0 +1,61 @@
+##################################
+# OS (macOS)
+##################################
+.DS_Store
+.AppleDouble
+.LSOverride
+
+##################################
+# IDE / Editor
+##################################
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.iml
+
+##################################
+# Node / JS / TS (global)
+##################################
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+##################################
+# Build / Dist (global)
+##################################
+dist/
+build/
+*.tsbuildinfo
+.out/
+coverage/
+tsconfig.build.tsbuildinfo
+
+##################################
+(Back Node/Nest)
+##################################
+dist
+node_modules
+
+##################################
+# Prisma / Database
+##################################
+prisma/*.db
+prisma/*.db-journal
+prisma/migrations/dev/
+
+##################################
+# Generated (Prisma client, etc.)
+##################################
+src/generated
+
+##################################
+# Environment (global)
+##################################
+.env
+
+##################################
+# Logs
+##################################
+logs/
+*.log
