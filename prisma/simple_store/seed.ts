@@ -15,7 +15,8 @@ import { PrismaPg } from '@prisma/adapter-pg';
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error('DATABASE_URL manquant — vérifie ton .env.dev');
 
-const adapter = new PrismaPg({ connectionString: url });
+const schema = new URL(url).searchParams.get('schema') ?? undefined;
+const adapter = new PrismaPg({ connectionString: url }, schema ? { schema } : undefined);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {

@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_USER: yolo
       POSTGRES_PASSWORD: yolo
-      POSTGRES_DB: labs_simple_store   # default Database
+      POSTGRES_DB: yolo   # one shared database; each project gets its own schema (see docker/init.sql)
     ports:
       - "5432:5432"
     volumes:

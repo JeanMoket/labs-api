@@ -1,14 +1,16 @@
 # ---- build ----
 FROM node:20-alpine AS build
 WORKDIR /app
+# placeholder so `prisma generate` (run via postinstall) can resolve its config;
+# no DB connection is made at generate time, so a fake value is fine
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
+
+# prisma schema (needed by the postinstall hook that npm ci triggers)
+COPY prisma ./prisma
 
 # deps
 COPY package*.json ./
 RUN npm ci
-
-# prisma schema + generate (IMPORTANT)
-COPY prisma ./prisma
-RUN npx prisma generate
 
 # source + build
 COPY . .
@@ -18,19 +20,19 @@ RUN npm run build
 FROM node:20-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
+# placeholder so `prisma generate` (run via postinstall) can resolve its config;
+# overridden at container start by the real DATABASE_URL from env_file
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
+
+# prisma schema (needed by the postinstall hook that npm ci triggers)
+COPY prisma ./prisma
 
 # install prod deps (includes @prisma/client)
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-# copy prisma folder + generated client engine bits
-COPY prisma ./prisma
-# regenerate in runtime image too (safe & simple)
-RUN npx prisma generate
-
-COPY prisma.config.ts ./
 # copy compiled app
 COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
-CMD ["node", "dist/src/main.js"]
+CMD ["node", "dist/main.js"]

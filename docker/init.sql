@@ -1,3 +1,2 @@
--- Only one database by project
--- To create a new database
-CREATE DATABASE labs_simple_store;
+-- One shared database, one schema per project (mirrors production: the "yolo" database)
+CREATE SCHEMA IF NOT EXISTS labs_simple_store;
