@@ -15,8 +15,11 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'http://localhost:4200', // Angular dev (jeanmoket.com)
-      'http://localhost:4201', // Angular dev (simple-store)
+      'http://localhost:4200',
+      'http://localhost:4201',
+      'https://sstore.jeanmoket.com',
+      'https://labs-api.jeanmoket.com',
+      'https://pizzeria.jeanmoket.com',
       process.env.FRONTEND_URL, // prod
     ].filter(Boolean) as string[],
     credentials: true,
